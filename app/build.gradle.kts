@@ -5,12 +5,12 @@ plugins {
 
 android {
     namespace = "com.essoft.imagetomath"
-    compileSdk = 33
+    compileSdk = 34
 
     defaultConfig {
         applicationId = "com.essoft.imagetomath"
         minSdk = 24
-        targetSdk = 33
+        targetSdk = 34
         versionCode = 1
         versionName = "1.0"
 
@@ -21,12 +21,43 @@ android {
     }
 
     buildTypes {
-        release {
-            isMinifyEnabled = false
-            proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
-            )
+        getByName("release") {
+            isMinifyEnabled = true
+            proguardFiles(getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro")
+        }
+
+        getByName("debug") {
+            applicationIdSuffix = ".debug"
+            isDebuggable = true
+        }
+
+    }
+    // Specifies one flavor dimension.
+    flavorDimensions += "version"
+    productFlavors {
+        create("red-filesystem") {
+            // Assigns this product flavor to the "version" flavor dimension.
+            // If you are using only one dimension, this property is optional,
+            // and the plugin automatically assigns all the module's flavors to
+            // that dimension.
+            dimension = "version"
+            applicationIdSuffix = ".red.filesystem"
+            versionNameSuffix = "-red-filesystem"
+        }
+        create("red-built-in-camera") {
+            dimension = "version"
+            applicationIdSuffix = ".red.camera"
+            versionNameSuffix = "-red-built-in-camera"
+        }
+        create("green-filesystem") {
+            dimension = "version"
+            applicationIdSuffix = ".green.filesystem"
+            versionNameSuffix = "-green-filesystem"
+        }
+        create("green-built-in-camera") {
+            dimension = "version"
+            applicationIdSuffix = ".green.camera"
+            versionNameSuffix = "-green-built-in-camera"
         }
     }
     compileOptions {
@@ -51,7 +82,7 @@ android {
 
 dependencies {
 
-    implementation("androidx.core:core-ktx:1.9.0")
+    implementation("androidx.core:core-ktx:1.10.1")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.1")
     implementation("androidx.activity:activity-compose:1.7.2")
     implementation(platform("androidx.compose:compose-bom:2023.03.00"))
@@ -60,6 +91,9 @@ dependencies {
     implementation("androidx.compose.ui:ui-tooling-preview")
     implementation("androidx.compose.material3:material3")
     implementation("androidx.navigation:navigation-compose:2.7.1")
+
+    //Text Recognition
+    implementation ("com.google.mlkit:text-recognition:16.0.0")
 
     //Image Loader
     implementation("io.coil-kt:coil:2.3.0")

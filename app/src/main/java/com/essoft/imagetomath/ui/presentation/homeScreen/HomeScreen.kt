@@ -11,7 +11,6 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
@@ -19,14 +18,14 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material.icons.outlined.ArrowForward
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Divider
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExposedDropdownMenuBox
-import androidx.compose.material3.FilledTonalButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
@@ -38,28 +37,26 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusDirection
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import coil.compose.AsyncImage
-import coil.request.ImageRequest
 import org.koin.androidx.compose.koinViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
+    viewModel: HomeViewModel = koinViewModel(),
     onNextClicked: () -> Unit,
     navigateBack: () -> Unit,
 ) {
-    val viewModel: HomeViewModel = koinViewModel()
+    //val viewModel: HomeViewModel = koinViewModel()
     var name by remember { mutableStateOf("") }
     var type by remember { mutableStateOf("") }
     var ingredient by remember { mutableStateOf("") }
@@ -249,7 +246,30 @@ fun RecipeImageCard(
     launcher: ManagedActivityResultLauncher<PickVisualMediaRequest, Uri?>,
     photoUri: Uri?,
 ) {
+    Card(modifier = Modifier,
+        colors = CardDefaults.cardColors(
+            containerColor = Color.Yellow
+        )) {
+        /*if (photoUri != null) {
+           AsyncImage(
+               model = ImageRequest
+                   .Builder(LocalContext.current)
+                   .data(data = photoUri)
+                   .build(),
+               contentDescription = "Recipe Image",
+               contentScale = ContentScale.Crop,
+               modifier = Modifier.fillMaxSize(),
+           )
 
+           *//*Image(
+                    modifier = Modifier,
+                    painter = painter,
+                    //painter = painterResource(id = R.drawable.img2),
+                    contentDescription = "lucy pic",
+                    contentScale = ContentScale.Crop
+                )*//*
+            }*/
+    }
     Box(
         modifier = Modifier
             .border(BorderStroke(1.dp, color = MaterialTheme.colorScheme.outline))
@@ -257,43 +277,42 @@ fun RecipeImageCard(
             .fillMaxWidth(),
         //colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
     ) {
-        if (photoUri != null) {
-            AsyncImage(
-                model = ImageRequest
-                    .Builder(LocalContext.current)
-                    .data(data = photoUri)
-                    .build(),
-                contentDescription = "Recipe Image",
-                contentScale = ContentScale.Crop,
-                modifier = Modifier.fillMaxSize(),
-            )
-
-            /*Image(
-                modifier = Modifier,
-                painter = painter,
-                //painter = painterResource(id = R.drawable.img2),
-                contentDescription = "lucy pic",
-                contentScale = ContentScale.Crop
-            )*/
-        }
-
-        FilledTonalButton(
+        /*FilledTonalButton(
             modifier = Modifier
                 .align(Alignment.BottomEnd)
                 .padding(all = 2.dp),
             onClick = { launcher.launch(
                 PickVisualMediaRequest(
-                //Here we request only photos. Change this to .ImageAndVideo if you want videos too.
-                //Or use .VideoOnly if you only want videos.
-                mediaType = ActivityResultContracts.PickVisualMedia.ImageOnly
-            )
+                    //Here we request only photos. Change this to .ImageAndVideo if you want videos too.
+                    //Or use .VideoOnly if you only want videos.
+                    mediaType = ActivityResultContracts.PickVisualMedia.ImageOnly
+                )
             )},
         ) {
             Icon(
                 Icons.Filled.Add,
                 contentDescription = "add")
-        }
+        }*/
     }
+}
+
+@Preview
+@Composable
+fun PreviewHomeScreen() {
+    HomeScreen(onNextClicked = { /*TODO*/ }) {
+        
+    }
+}
+@Preview
+@Composable
+fun PreviewRecipeImageCard() {
+    val fakeUri: Uri? = null // Provide a fake Uri here for testing
+    RecipeImageCard(
+        launcher = rememberLauncherForActivityResult(contract = ActivityResultContracts.PickVisualMedia()) { result ->
+            // Handle the result here
+        },
+        photoUri = fakeUri
+    )
 }
 
 /*fun saveImageByUri(uri: Uri){
