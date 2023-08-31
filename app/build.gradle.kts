@@ -60,6 +60,7 @@ android {
             versionNameSuffix = "-green-built-in-camera"
         }
     }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
@@ -68,6 +69,7 @@ android {
         jvmTarget = "1.8"
     }
     buildFeatures {
+        buildConfig = true
         compose = true
     }
     composeOptions {
@@ -91,9 +93,11 @@ dependencies {
     implementation("androidx.compose.ui:ui-tooling-preview")
     implementation("androidx.compose.material3:material3")
     implementation("androidx.navigation:navigation-compose:2.7.1")
+    implementation ("androidx.compose.material:material-icons-extended:1.5.0")
 
-    //Text Recognition
-    implementation ("com.google.mlkit:text-recognition:16.0.0")
+    //Math Expression Parser
+    implementation("net.objecthunter:exp4j:0.4.8")
+    implementation("com.ezylang:EvalEx:3.0.5")
 
     //Image Loader
     implementation("io.coil-kt:coil:2.3.0")
@@ -103,6 +107,9 @@ dependencies {
     implementation ("io.insert-koin:koin-core:3.4.0")
     implementation ("io.insert-koin:koin-android:3.4.0")
     implementation ("io.insert-koin:koin-androidx-compose:3.4.4")
+
+    //Text Recognition
+    implementation ("com.google.mlkit:text-recognition:16.0.0")
 
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")

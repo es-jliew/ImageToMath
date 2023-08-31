@@ -6,10 +6,13 @@ import androidx.navigation.compose.composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.compose.NavHost
+import com.essoft.imagetomath.ui.presentation.homeScreen.HomeScreen
+import com.essoft.imagetomath.ui.presentation.homeScreen.HomeViewModel
+import org.koin.androidx.compose.koinViewModel
 
 @Preview
 @Composable
-fun RecipeApp(
+fun AppNavigation(
     navController: NavHostController = rememberNavController(),
 ) {
     NavHost(
@@ -17,7 +20,8 @@ fun RecipeApp(
         startDestination = AppScreens.Home.name,
     ) {
         composable(route = AppScreens.Home.name) {
-
+            val viewModel: HomeViewModel = koinViewModel()
+            HomeScreen(viewModel)
         }
     }
 }
